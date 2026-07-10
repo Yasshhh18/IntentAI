@@ -1,451 +1,298 @@
-import { Search, Brain, TrendingUp, Database, Lightbulb, Shield, Zap, Code, Landmark, LineChart } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { Search, Brain, Database, Lightbulb, ArrowRight, ChevronRight, Play, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { cn } from '../lib/utils';
 
 export default function Landing() {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState('platform');
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   return (
-    <div className="bg-transparent min-h-screen flex flex-col font-sans text-on-surface">
+    <div className="bg-background min-h-screen flex flex-col font-sans text-on-surface overflow-x-hidden selection:bg-accent/20 selection:text-white" ref={targetRef}>
+      {/* Dynamic Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-surface/20 via-background to-background"></div>
+        {/* Animated Orbs */}
+        <motion.div 
+          animate={{ 
+            x: [0, 100, 0], 
+            y: [0, -50, 0],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[10%] left-[20%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, -100, 0], 
+            y: [0, 100, 0],
+            opacity: [0.2, 0.4, 0.2]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[40%] right-[10%] w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px]"
+        />
+      </div>
+
       {/* Top Navigation */}
-      <header className="bg-white/40 backdrop-blur-xl border-b border-white/50 shadow-glass flex justify-between items-center w-full px-6 py-4 z-50 sticky top-0">
-        <div className="flex items-center gap-4 flex-1">
-          <span className="text-xl font-bold text-primary dark:text-primary-fixed tracking-tight">IntentIQ</span>
-        </div>
-        <div className="hidden md:flex items-center justify-center gap-8 text-base font-medium flex-none">
-          {[{ id: 'platform', label: 'Platform', href: '#' }, { id: 'solutions', label: 'Solutions', href: '#solutions' }, { id: 'resources', label: 'Resources', href: '#resources' }].map(({ id, label, href }) => (
-            <a
-              key={id}
-              href={href}
-              onClick={() => setActiveNav(id)}
-              className={`relative pb-1 transition-colors ${
-                activeNav === id
-                  ? 'text-accent'
-                  : 'text-on-surface-variant hover:text-accent'
-              }`}
-            >
-              {label}
-              {activeNav === id && (
-                <motion.span
-                  layoutId="nav-underline"
-                  className="absolute left-0 -bottom-0.5 w-full h-0.5 bg-accent rounded-full"
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                />
-              )}
-            </a>
-          ))}
-        </div>
-        <div className="flex items-center gap-4 flex-1 justify-end">
-          <button className="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">
-            <Search className="w-5 h-5" />
-          </button>
-          <button 
-            onClick={() => navigate('/dashboard')}
-            className="bg-accent text-on-accent px-5 py-2.5 rounded-lg text-lg font-bold hover:bg-accent-container transition-colors shadow-sm"
-          >
-            Launch Cockpit
-          </button>
+      <header className="fixed top-0 w-full z-50 transition-all duration-300 bg-surface/40 backdrop-blur-xl border-b border-outline/30 shadow-glass">
+        <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/30 flex items-center justify-center">
+              <Brain className="w-4 h-4 text-accent" />
+            </div>
+            <span className="text-xl font-bold tracking-tight text-white">IntentIQ</span>
+          </div>
+          
+          <div className="hidden md:flex items-center gap-8">
+            {[{ id: 'platform', label: 'Platform' }, { id: 'solutions', label: 'Solutions' }, { id: 'resources', label: 'Resources' }].map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => setActiveNav(id)}
+                className={cn(
+                  "text-[14px] font-medium transition-colors relative py-2",
+                  activeNav === id ? "text-white" : "text-on-surface-variant hover:text-white"
+                )}
+              >
+                {label}
+                {activeNav === id && (
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent rounded-full shadow-[0_0_8px_rgba(245,158,11,0.5)]"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="text-on-surface-variant hover:text-white transition-colors">
+              <Search className="w-4 h-4" />
+            </button>
+            <Button variant="ai" size="sm" onClick={() => navigate('/dashboard')} className="gap-2">
+              Launch Cockpit <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </header>
 
-      <main className="flex-grow">
+      <main className="flex-grow relative z-10 pt-32 pb-24">
         {/* Hero Section */}
-        <section className="relative pt-20 pb-32 px-6 overflow-hidden">
-          <div className="absolute inset-0 z-0 bg-gradient-to-br from-white/40 to-transparent opacity-50 pointer-events-none"></div>
-          {/* Ambient glow */}
-          <div className="absolute top-20 right-10 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] -z-10 animate-pulse"></div>
-          <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-accent/20 rounded-full blur-[120px] -z-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <motion.section style={{ opacity, scale }} className="px-6 mb-32 max-w-[1400px] mx-auto">
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-16">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6"
+            >
+              <Badge variant="ai" className="px-3 py-1.5 gap-2 uppercase tracking-widest text-[11px] shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                <Zap className="w-3.5 h-3.5" /> Next-Gen AI Intelligence
+              </Badge>
+            </motion.div>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-[56px] md:text-[72px] font-bold leading-[1.1] tracking-tight mb-8 text-white"
+            >
+              Move Beyond <br />
+              <span className="text-gradient-accent">Traditional Metrics.</span>
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-[18px] text-on-surface-variant font-medium leading-relaxed max-w-2xl mb-10"
+            >
+              Unlock true repayment capacity and customer intent through data-driven transactional and behavioral insights. Generate high-quality leads instantly.
+            </motion.p>
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex items-center gap-4"
+            >
+              <Button variant="ai" size="lg" onClick={() => navigate('/dashboard')} className="gap-2 text-[15px] px-8 h-12">
+                Start Simulation <ChevronRight className="w-4 h-4" />
+              </Button>
+              <Button variant="outline" size="lg" className="glass gap-2 text-[15px] px-8 h-12 hover:bg-surface-variant/30">
+                <Play className="w-4 h-4" /> Watch Demo
+              </Button>
+            </motion.div>
+          </div>
+
+          {/* Hero Visuals */}
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="relative max-w-5xl mx-auto"
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent z-20 pointer-events-none h-full" />
+            
+            <div className="relative z-10 rounded-2xl border border-outline/50 bg-surface/40 backdrop-blur-md p-2 shadow-glass overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-50" />
+              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50" />
+              
+              <div className="bg-[#0f172a] rounded-xl border border-outline/30 aspect-[16/9] relative overflow-hidden flex items-center justify-center group">
+                 {/* Decorative mock UI lines */}
+                 <div className="absolute top-4 left-4 flex gap-2">
+                   <div className="w-3 h-3 rounded-full bg-error/80" />
+                   <div className="w-3 h-3 rounded-full bg-accent/80" />
+                   <div className="w-3 h-3 rounded-full bg-primary/80" />
+                 </div>
+
+                 {/* Center Graphic */}
+                 <div className="w-3/4 h-3/4 relative">
+                    <svg viewBox="0 0 800 400" className="w-full h-full drop-shadow-2xl opacity-90">
+                      {/* Grid */}
+                      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+                      </pattern>
+                      <rect width="800" height="400" fill="url(#grid)" />
+
+                      {/* Main Chart Area */}
+                      <path d="M 50,300 Q 200,280 350,150 T 750,50" fill="none" stroke="rgba(16,185,129,0.2)" strokeWidth="40" strokeLinecap="round" className="animate-pulse" />
+                      <path d="M 50,300 Q 200,280 350,150 T 750,50" fill="none" stroke="#10b981" strokeWidth="4" strokeLinecap="round" />
+                      
+                      {/* Data Points */}
+                      <circle cx="350" cy="150" r="8" fill="#10b981" stroke="#0f172a" strokeWidth="3" className="animate-pulse" />
+                      <circle cx="550" cy="100" r="8" fill="#10b981" stroke="#0f172a" strokeWidth="3" />
+                      <circle cx="750" cy="50" r="12" fill="#f59e0b" stroke="#0f172a" strokeWidth="4" />
+
+                      {/* Overlays */}
+                      <g transform="translate(680, 20)">
+                        <rect width="100" height="40" rx="8" fill="rgba(245,158,11,0.15)" stroke="rgba(245,158,11,0.5)" />
+                        <text x="50" y="25" fill="#f59e0b" fontSize="14" fontWeight="bold" textAnchor="middle">98% Intent</text>
+                      </g>
+
+                      {/* Floating UI Elements */}
+                      <g transform="translate(100, 100)">
+                         <rect width="180" height="80" rx="12" fill="rgba(30,41,59,0.8)" stroke="rgba(255,255,255,0.1)" />
+                         <text x="20" y="30" fill="#94a3b8" fontSize="12" fontWeight="600">Assessed Capacity</text>
+                         <text x="20" y="60" fill="#fff" fontSize="24" fontWeight="bold">₹2.4L</text>
+                      </g>
+                    </svg>
+                 </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.section>
+
+        {/* Features Grid */}
+        <section className="px-6 mb-32 max-w-[1400px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-[32px] md:text-[40px] font-bold text-white mb-4 tracking-tight">Enterprise Intelligence</h2>
+            <p className="text-[16px] text-on-surface-variant max-w-2xl mx-auto">A seamless pipeline from raw data to actionable relationship intelligence.</p>
+          </div>
           
-          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
-            <motion.div 
-              className="space-y-6"
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container/80 backdrop-blur-md rounded-full text-primary text-xs font-bold uppercase tracking-wider border border-primary/20 shadow-[0_0_15px_rgba(15,106,74,0.15)]">
-                <Brain className="w-4 h-4 text-accent" />
-                Powered by Advanced AI
-              </div>
-              <h1 className="text-5xl md:text-6xl font-semibold text-on-background leading-tight tracking-tight">
-                Move Beyond <span className="text-gradient-brand">Traditional Metrics.</span>
-              </h1>
-              <p className="text-xl text-on-surface-variant font-normal leading-relaxed">
-                Unlock true repayment capacity and customer intent through data-driven transactional and behavioral insights. Generate high-quality leads for retail lending instantly.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-4">
-                <Link to="/dashboard" className="bg-accent text-on-accent px-8 py-3.5 rounded-lg text-lg font-bold shadow-md hover:shadow-lg hover:bg-accent-container transition-all">
-                  Start Simulation
-                </Link>
-                <button className="bg-white/50 backdrop-blur-sm border border-white/60 text-on-surface px-8 py-3.5 rounded-lg text-lg font-semibold hover:bg-white/80 transition-all shadow-sm">
-                  Explore Features
-                </button>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="relative mt-8 md:mt-0"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            >
-              <motion.div
-                className="bg-white/80 backdrop-blur-lg border border-white/60 shadow-glass p-5 rounded-2xl relative z-10 hover:shadow-glass-hover transition-all"
-                animate={{ y: [-8, 8, -8] }}
-                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              >
-                {/* Inline SVG — AI Banking Intelligence Illustration */}
-                <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto rounded-xl">
-                  {/* Background */}
-                  <rect width="480" height="300" rx="16" fill="#f0fdf8" />
-
-                  {/* Subtle grid lines */}
-                  {[60, 120, 180, 240].map(y => (
-                    <line key={y} x1="40" y1={y} x2="440" y2={y} stroke="#d1fae5" strokeWidth="1" strokeDasharray="4 4" />
-                  ))}
-
-                  {/* === INCOME BAR CHART === */}
-                  {/* Declared Income bar */}
-                  <rect x="60" y="160" width="44" height="80" rx="6" fill="#a7f3d0" />
-                  <text x="82" y="155" textAnchor="middle" fontSize="10" fill="#059669" fontWeight="bold">₹1.2L</text>
-                  <text x="82" y="258" textAnchor="middle" fontSize="9" fill="#6b7280">Declared</text>
-
-                  {/* AI Assessed Income bar — taller */}
-                  <rect x="120" y="100" width="44" height="140" rx="6" fill="#10b981" />
-                  <text x="142" y="95" textAnchor="middle" fontSize="10" fill="#065f46" fontWeight="bold">₹1.85L</text>
-                  <text x="142" y="258" textAnchor="middle" fontSize="9" fill="#6b7280">AI Assessed</text>
-
-                  {/* Repayment Capacity bar */}
-                  <rect x="180" y="130" width="44" height="110" rx="6" fill="#34d399" opacity="0.7" />
-                  <text x="202" y="125" textAnchor="middle" fontSize="10" fill="#065f46" fontWeight="bold">83K</text>
-                  <text x="202" y="258" textAnchor="middle" fontSize="9" fill="#6b7280">Capacity</text>
-
-                  {/* === TRENDING LINE CHART === */}
-                  <polyline
-                    points="255,220 285,185 315,195 345,140 375,120 405,80 430,60"
-                    fill="none"
-                    stroke="#0f6a4a"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  {/* Area fill under line */}
-                  <polygon
-                    points="255,220 285,185 315,195 345,140 375,120 405,80 430,60 430,240 255,240"
-                    fill="url(#greenGrad)"
-                    opacity="0.15"
-                  />
-                  <defs>
-                    <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#10b981" />
-                      <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  {/* Dots on line */}
-                  {[[255,220],[285,185],[315,195],[345,140],[375,120],[405,80],[430,60]].map(([cx,cy], i) => (
-                    <circle key={i} cx={cx} cy={cy} r="4" fill="#0f6a4a" stroke="white" strokeWidth="2" />
-                  ))}
-                  {/* Chart label */}
-                  <text x="342" y="270" textAnchor="middle" fontSize="9" fill="#6b7280">Conversion Trend</text>
-                  <text x="342" y="260" textAnchor="middle" fontSize="11" fill="#0f6a4a" fontWeight="bold">&gt; 34% ↑</text>
-
-                  {/* === INTENT SCORE NODES === */}
-                  <circle cx="390" cy="195" r="22" fill="#ecfdf5" stroke="#10b981" strokeWidth="1.5" />
-                  <text x="390" y="191" textAnchor="middle" fontSize="9" fill="#065f46" fontWeight="bold">Intent</text>
-                  <text x="390" y="204" textAnchor="middle" fontSize="11" fill="#059669" fontWeight="bold">87</text>
-
-                  {/* Label — top left */}
-                  <rect x="40" y="20" width="130" height="28" rx="8" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="1" />
-                  <text x="55" y="39" fontSize="12" fill="#0f6a4a" fontWeight="bold">IntentIQ Analytics</text>
-                </svg>
-              </motion.div>
-              
-              {/* Floating badge — TOP RIGHT: AI Intent Score */}
-              <motion.div
-                className="absolute -top-5 -right-6 bg-white/80 backdrop-blur-lg border border-white/60 shadow-glass p-3 rounded-xl flex items-center gap-3 z-20"
-                animate={{ y: [-8, 8, -8], rotate: [2, -2, 2] }}
-                transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
-              >
-                <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center">
-                  <Brain className="text-accent w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">AI Intent Score</p>
-                  <p className="text-xl font-bold text-accent tracking-tight">87 / 100</p>
-                </div>
-              </motion.div>
-
-              {/* Floating UI element — BOTTOM LEFT: Lead Conversion */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: Database, title: "Data Ingestion", desc: "Securely aggregate omnichannel data points including transaction history and market signals.", color: "text-primary", bg: "bg-primary/10" },
+              { icon: Brain, title: "AI Analysis", desc: "Proprietary deep learning models analyze patterns to identify life events and financial stress.", color: "text-accent", bg: "bg-accent/10" },
+              { icon: Lightbulb, title: "Actionable Intelligence", desc: "Deliver hyper-personalized recommendations directly to the underwriter's cockpit.", color: "text-tertiary", bg: "bg-tertiary/10" }
+            ].map((feature, i) => (
               <motion.div 
-                className="absolute -bottom-6 -left-6 bg-white/80 backdrop-blur-lg border border-white/60 shadow-glass p-4 rounded-xl flex items-center gap-4 z-20"
-                animate={{ y: [8, -15, 8], rotate: [-2, 2, -2] }}
-                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="p-8 rounded-2xl glass hover:bg-surface-variant/30 transition-colors group relative overflow-hidden"
               >
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <TrendingUp className="text-primary w-5 h-5" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-6 shadow-sm border border-white/5", feature.bg, feature.color)}>
+                  <feature.icon className="w-6 h-6" />
                 </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Lead Conversion Rate</p>
-                  <p className="text-2xl font-bold text-primary tracking-tight">&gt; 34%</p>
-                </div>
+                <h3 className="text-[20px] font-bold text-white mb-3">{feature.title}</h3>
+                <p className="text-[14px] text-on-surface-variant leading-relaxed font-medium">{feature.desc}</p>
               </motion.div>
-            </motion.div>
+            ))}
           </div>
         </section>
 
-        {/* How it Works Section */}
-        <section className="py-24 px-6 bg-white/30 backdrop-blur-sm border-y border-white/40 relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-secondary-container/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-semibold text-on-background mb-4 tracking-tight">How IntentIQ Works</h2>
-              <p className="text-base text-on-surface-variant max-w-2xl mx-auto">A seamless pipeline from raw data to actionable relationship intelligence.</p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Step 1 */}
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-8 rounded-xl relative overflow-hidden group hover:shadow-glass-hover transition-all hover:border-ai-glow">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div className="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-6 text-primary">
-                  <Database className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-on-background mb-3">1. Data Ingestion</h3>
-                <p className="text-base text-on-surface-variant leading-relaxed">Securely aggregate omnichannel data points including transaction history, browsing behavior, and market signals.</p>
-              </div>
-              
-              {/* Step 2 */}
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-8 rounded-xl relative overflow-hidden group hover:shadow-glass-hover transition-all hover:border-ai-glow">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-container/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div className="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-6 text-accent shadow-sm">
-                  <Brain className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-on-background mb-3">2. AI Analysis</h3>
-                <p className="text-base text-on-surface-variant leading-relaxed">Proprietary deep learning models analyze patterns to identify life events, financial stress, or growth opportunities.</p>
-              </div>
-              
-              {/* Step 3 */}
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-8 rounded-xl relative overflow-hidden group hover:shadow-glass-hover transition-all hover:border-ai-glow">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-tertiary-container/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                <div className="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-6 text-tertiary shadow-sm">
-                  <Lightbulb className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-on-background mb-3">3. Actionable Intelligence</h3>
-                <p className="text-base text-on-surface-variant leading-relaxed">Deliver hyper-personalized product recommendations and risk alerts directly to the underwriter's cockpit.</p>
-              </div>
-            </div>
+        {/* Comparison Section */}
+        <section className="px-6 mb-32 max-w-[1400px] mx-auto relative">
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-[120px] -z-10" />
+           <div className="text-center mb-16">
+            <h2 className="text-[32px] md:text-[40px] font-bold text-white mb-4 tracking-tight">The IntentIQ Advantage</h2>
           </div>
-        </section>
 
-        {/* Features Section */}
-        <section className="py-24 px-6 bg-transparent relative">
-          <div className="absolute -left-40 top-40 w-96 h-96 bg-tertiary-container/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="mb-12">
-              <h2 className="text-4xl font-semibold text-on-background tracking-tight">Platform Capabilities</h2>
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Traditional */}
+            <div className="glass rounded-2xl p-8 relative overflow-hidden opacity-70">
+               <Badge variant="outline" className="absolute top-6 right-6">Traditional Banking</Badge>
+               <h3 className="text-[20px] font-bold text-white mb-8">The Old Way</h3>
+               <ul className="space-y-6">
+                 {[
+                   ['Manual Reviews', 'RM manually scans 200+ customers daily'],
+                   ['Low Conversion', 'Poor targeting leads to wasted outreach'],
+                   ['Declared Income', 'True repayment capacity is invisible'],
+                   ['No Intent', 'No way to know who is actually interested']
+                 ].map(([title, desc], i) => (
+                   <li key={i} className="flex flex-col gap-1">
+                     <span className="text-[14px] font-bold text-on-surface-variant">{title}</span>
+                     <span className="text-[13px] text-on-surface-variant/70">{desc}</span>
+                   </li>
+                 ))}
+               </ul>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[240px]">
-              {/* Large Feature */}
-              <div className="md:col-span-2 md:row-span-2 bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass hover:shadow-glass-hover transition-all rounded-xl p-8 flex flex-col relative overflow-hidden group hover:border-ai-glow">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="z-10 flex-grow">
-                  <h3 className="text-2xl font-semibold text-on-background mb-3">Behavior Intelligence</h3>
-                  <p className="text-base text-on-surface-variant max-w-md leading-relaxed">Map complex customer journeys and predict next-best-actions with high accuracy using multi-dimensional behavior modeling.</p>
-                </div>
-                <div className="mt-auto z-10 relative">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-accent/20 to-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <img 
-                    className="w-full h-56 object-cover rounded-lg border border-outline-variant/20 shadow-sm relative z-10" 
-                    alt="Behavior Visualization" 
-                    src="/behavior_visualization.png"
-                  />
-                </div>
-              </div>
-              
-              {/* Medium Feature */}
-              <div className="md:col-span-2 bg-gradient-to-br from-[#0F6A4A] to-[#10B981] text-white rounded-xl p-8 flex flex-col justify-between shadow-[0_10px_30px_rgba(16,185,129,0.3)] relative overflow-hidden hover:scale-[1.02] transition-transform">
-                <div className="absolute -right-10 -top-10 w-64 h-64 bg-white/20 rounded-full blur-3xl"></div>
-                <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-accent/40 rounded-full blur-2xl"></div>
-                <div className="relative z-10">
-                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-5 backdrop-blur-sm shadow-inner">
-                    <Shield className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-2xl font-semibold mb-2">Bank-Grade Security</h3>
-                  <p className="text-lg opacity-90 leading-relaxed">Enterprise-level encryption, strict access controls, and full regulatory compliance built into the core architecture.</p>
-                </div>
-              </div>
-              
-              {/* Small Features */}
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass hover:shadow-glass-hover transition-all rounded-xl p-6 flex flex-col justify-center items-center text-center hover:border-ai-glow group">
-                <Zap className="w-10 h-10 text-accent mb-4 group-hover:scale-110 transition-transform" />
-                <h4 className="text-lg font-semibold text-on-background">Real-Time Processing</h4>
-                <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant mt-2">&lt; 50ms Latency</p>
-              </div>
-              
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass hover:shadow-glass-hover transition-all rounded-xl p-6 flex flex-col justify-center items-center text-center hover:border-ai-glow group">
-                <Code className="w-10 h-10 text-tertiary mb-4 group-hover:scale-110 transition-transform" />
-                <h4 className="text-lg font-semibold text-on-background">API First</h4>
-                <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant mt-2">Seamless Integration</p>
-              </div>
+
+            {/* AI Powered */}
+            <div className="glass rounded-2xl p-8 relative overflow-hidden border-accent/30 shadow-[0_0_30px_rgba(245,158,11,0.05)] bg-surface/80">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 blur-2xl" />
+               <Badge variant="ai" className="absolute top-6 right-6">IntentIQ AI</Badge>
+               <h3 className="text-[20px] font-bold text-white mb-8">AI Intelligence</h3>
+               <ul className="space-y-6 relative z-10">
+                 {[
+                   ['AI Opportunity Feed', 'Ranked, prioritized leads ready to act on'],
+                   ['>34% Conversion', 'Behavioral signals identify only right prospects'],
+                   ['AI Assessment', 'Actual repayment capacity from transactions'],
+                   ['Real-time Scoring', 'Detect interest 30–60 days before application']
+                 ].map(([title, desc], i) => (
+                   <li key={i} className="flex flex-col gap-1">
+                     <span className="text-[14px] font-bold text-accent">{title}</span>
+                     <span className="text-[13px] text-on-surface-variant">{desc}</span>
+                   </li>
+                 ))}
+               </ul>
             </div>
           </div>
         </section>
 
-        {/* Solutions Section */}
-        <section className="py-24 px-6 bg-white/30 backdrop-blur-sm border-y border-white/40 relative overflow-hidden" id="solutions">
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-semibold text-on-background mb-4 tracking-tight">Tailored <span className="text-gradient-accent">Solutions</span></h2>
-              <p className="text-base text-on-surface-variant max-w-2xl mx-auto">Discover how IntentIQ transforms different aspects of banking operations.</p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-8 rounded-xl hover:shadow-glass-hover transition-all hover:-translate-y-1 hover:border-ai-glow group">
-                <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(15,106,74,0.15)]">
-                  <Landmark className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-semibold text-on-background mb-3">Retail Lending Target</h3>
-                <p className="text-base text-on-surface-variant leading-relaxed">Precision targeting for Personal Loans, Home Loans, Mortgage Loans, and Auto Loans.</p>
-              </div>
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-8 rounded-xl hover:shadow-glass-hover transition-all hover:-translate-y-1 hover:border-ai-glow group">
-                <div className="w-14 h-14 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary mb-6 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(180,83,9,0.15)]">
-                  <LineChart className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-semibold text-on-background mb-3">Repayment Capacity</h3>
-                <p className="text-base text-on-surface-variant leading-relaxed">Assess actual income levels using transaction anomalies instead of traditional metrics.</p>
-              </div>
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-8 rounded-xl hover:shadow-glass-hover transition-all hover:-translate-y-1 hover:border-ai-glow group">
-                <div className="w-14 h-14 rounded-lg bg-accent/10 flex items-center justify-center text-accent mb-6 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(242,140,40,0.15)]">
-                  <TrendingUp className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-semibold text-on-background mb-3">High-Quality Leads</h3>
-                <p className="text-base text-on-surface-variant leading-relaxed">Identify genuinely interested prospects to generate conversions exceeding 30%.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Before vs After — Traditional Banking vs IntentIQ AI */}
-        <section className="py-24 px-6 bg-transparent relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] bg-primary/8 rounded-full blur-[140px] -z-10 pointer-events-none" />
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container/80 backdrop-blur-md rounded-full text-primary text-xs font-bold uppercase tracking-wider border border-primary/20 mb-6">
-                Why IntentIQ?
-              </div>
-              <h2 className="text-4xl font-semibold text-on-background mb-4 tracking-tight">
-                Traditional Banking <span className="text-on-surface-variant">vs</span> <span className="text-gradient-accent">IntentIQ AI</span>
-              </h2>
-              <p className="text-base text-on-surface-variant max-w-xl mx-auto">The same RM. The same portfolio. A completely different outcome.</p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Traditional Side */}
-              <div className="bg-white/40 backdrop-blur-lg border border-outline-variant/60 rounded-2xl p-8 relative overflow-hidden">
-                <div className="absolute top-4 right-4 px-3 py-1 bg-red-100 text-red-700 border border-red-200 rounded-full text-xs font-bold uppercase tracking-wider">Old Way</div>
-                <h3 className="text-xl font-semibold text-on-background mb-6">Traditional Retail Lending</h3>
-                <div className="flex flex-col gap-4">
-                  {[
-                    ['📋', 'Manual pipeline reviews', 'RM manually scans 200+ customers daily'],
-                    ['📉', 'Low conversion (<10%)', 'Poor targeting leads to wasted outreach'],
-                    ['💰', 'Declared income only', 'True repayment capacity is invisible'],
-                    ['🎯', 'No intent detection', 'No way to know who is actually interested'],
-                    ['⏳', 'Slow underwriting', 'Decisions take days with incomplete data'],
-                    ['❌', 'High rejection rate', 'Wrong customers, wrong products, wrong time'],
-                  ].map(([icon, title, desc]) => (
-                    <div key={title} className="flex items-start gap-3 opacity-80">
-                      <span className="text-xl flex-shrink-0">{icon}</span>
-                      <div>
-                        <p className="text-[14px] font-semibold text-on-surface">{title}</p>
-                        <p className="text-[12px] text-on-surface-variant">{desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* IntentIQ Side */}
-              <div className="bg-gradient-to-br from-primary/10 to-accent/5 backdrop-blur-lg border border-primary/25 rounded-2xl p-8 relative overflow-hidden shadow-primary-glow">
-                <div className="absolute top-4 right-4 px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-bold uppercase tracking-wider">IntentIQ AI</div>
-                <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
-                <h3 className="text-xl font-semibold text-on-background mb-6">AI Relationship Manager</h3>
-                <div className="flex flex-col gap-4 relative z-10">
-                  {[
-                    ['🤖', 'AI Opportunity Feed', 'Every morning: ranked, prioritized leads ready to act on'],
-                    ['📈', '>34% Conversion Rate', 'Behavioral signals identify only the right prospects'],
-                    ['🔍', 'AI Income Assessment', 'Actual repayment capacity from transaction analysis'],
-                    ['⚡', 'Real-time Intent Scoring', 'Detect interest 30–60 days before the customer applies'],
-                    ['🧠', 'Explainable AI', 'Every recommendation shows exactly why — trusted by underwriters'],
-                    ['✅', 'Prudent Underwriting', 'Personal, Home, Mortgage, Auto Loans matched to true capacity'],
-                  ].map(([icon, title, desc]) => (
-                    <div key={title} className="flex items-start gap-3">
-                      <span className="text-xl flex-shrink-0">{icon}</span>
-                      <div>
-                        <p className="text-[14px] font-semibold text-primary">{title}</p>
-                        <p className="text-[12px] text-on-surface-variant">{desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Resources Section */}
-        <section className="py-24 px-6 bg-transparent relative" id="resources">
-          <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-primary/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-semibold text-on-background mb-4 tracking-tight">Resources & <span className="text-gradient-brand">Insights</span></h2>
-              <p className="text-base text-on-surface-variant max-w-2xl mx-auto">Explore our latest reports, case studies, and documentation.</p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="flex gap-6 bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-6 rounded-xl hover:shadow-glass-hover transition-all items-center hover:border-ai-glow group cursor-pointer">
-                <div className="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-colors shadow-[0_0_15px_rgba(15,106,74,0.2)]">
-                  <Database className="w-8 h-8" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-on-background mb-2">API Documentation</h3>
-                  <p className="text-sm text-on-surface-variant mb-3">Complete reference for integrating IntentIQ with your existing systems.</p>
-                  <a href="#" className="text-accent font-medium text-sm hover:underline">Read Docs →</a>
-                </div>
-              </div>
-              <div className="flex gap-6 bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-6 rounded-xl hover:shadow-glass-hover transition-all items-center hover:border-ai-glow group cursor-pointer">
-                <div className="w-16 h-16 rounded-lg bg-accent/10 flex items-center justify-center text-accent flex-shrink-0 group-hover:bg-accent group-hover:text-white transition-colors shadow-[0_0_15px_rgba(242,140,40,0.2)]">
-                  <TrendingUp className="w-8 h-8" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-on-background mb-2">Case Study: IDBI Implementation</h3>
-                  <p className="text-sm text-on-surface-variant mb-3">How we increased cross-sell rates by 34% within the first quarter.</p>
-                  <a href="#" className="text-accent font-medium text-sm hover:underline">Download PDF →</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       {/* Footer */}
-      <footer className="bg-white/40 backdrop-blur-xl border-t border-white/50 flex justify-between items-center px-6 py-6 w-full">
-        <div className="text-base text-on-surface-variant">
-          © 2024 IDBI Bank - IntentIQ Division. Proprietary & Confidential.
-        </div>
-        <div className="flex gap-6 text-base font-medium">
-          <a className="text-on-surface-variant hover:text-accent transition-colors" href="#">Legal Compliance</a>
-          <a className="text-on-surface-variant hover:text-accent transition-colors" href="#">Privacy Policy</a>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
-            System Status: Optimal
+      <footer className="border-t border-outline/30 bg-surface/50 backdrop-blur-xl relative z-20">
+        <div className="max-w-[1400px] mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2 text-[13px] text-on-surface-variant font-medium">
+            <Brain className="w-4 h-4 text-accent" />
+            © 2026 IntentIQ Platform. Enterprise AI.
+          </div>
+          <div className="flex gap-6 text-[13px] font-medium text-on-surface-variant">
+            <a href="#" className="hover:text-white transition-colors">Documentation</a>
+            <a href="#" className="hover:text-white transition-colors">Security</a>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+              All Systems Optimal
+            </div>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
-

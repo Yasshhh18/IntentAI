@@ -1,6 +1,12 @@
 import { Shield, AlertTriangle, Lock, FileText, ToggleLeft, ToggleRight, CheckCircle, Search } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useState } from 'react';
+import { Card, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { motion } from 'framer-motion';
+
+const MotionCard = motion.create(Card);
 
 const policies = [
   { id: 1, name: 'Automated Loan Approval', description: 'Auto-approve loans under ₹5L with score > 85%', active: true, risk: 'Medium' },
@@ -17,128 +23,159 @@ export default function Settings() {
   };
 
   return (
-    <div className="flex flex-col gap-8 max-w-[1400px] mx-auto">
+    <div className="flex flex-col gap-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-[28px] font-semibold tracking-tight text-on-surface">Risk Controls</h1>
-          <p className="text-[14px] text-on-surface-variant mt-1">Manage global risk thresholds and automated policies.</p>
+          <h1 className="text-[32px] font-bold tracking-tight text-on-surface leading-none">Risk Controls</h1>
+          <p className="text-[14px] text-on-surface-variant font-medium mt-2">Manage global risk thresholds and automated policies.</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 text-[13px] font-medium text-on-surface bg-surface border border-outline-variant rounded-xl hover:bg-surface-container transition-all shadow-card">
-            <FileText className="w-3.5 h-3.5" /> Export Audit Log
-          </button>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <Button variant="outline" className="gap-2 glass">
+            <FileText className="w-4 h-4" /> Export Audit Log
+          </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Left Column - Active Threats & Status */}
         <div className="md:col-span-4 flex flex-col gap-6">
-          <div className="bg-surface border border-outline-variant rounded-2xl p-6 shadow-card">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                <Shield className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-[15px] font-semibold text-on-surface">System Posture</h2>
-                <p className="text-[12px] text-on-surface-variant mt-0.5">Global Risk Level</p>
-              </div>
-            </div>
-            
-            <div className="flex items-end justify-between mb-2">
-              <span className="text-[32px] font-semibold text-on-surface tracking-tight">Normal</span>
-              <span className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-[11px] font-bold mb-2">
-                <CheckCircle className="w-3 h-3" /> Secure
-              </span>
-            </div>
-            <div className="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-              <div className="h-full bg-primary rounded-full w-1/4" />
-            </div>
-            <p className="text-[11px] text-on-surface-variant mt-3 leading-relaxed">
-              All automated compliance checks are operational. 0 critical vulnerabilities detected.
-            </p>
-          </div>
-
-          <div className="bg-surface border border-outline-variant rounded-2xl p-5 shadow-card">
-            <h3 className="text-[14px] font-semibold text-on-surface flex items-center gap-2 mb-4">
-              <AlertTriangle className="w-4 h-4 text-accent" />
-              Recent Alerts
-            </h3>
-            <div className="flex flex-col gap-4">
-              {[
-                { time: '10 mins ago', msg: 'Multiple failed logins from IP 192.168.1.50', level: 'Medium' },
-                { time: '1 hour ago', msg: 'Anomaly detected in transaction velocity for Merchant #402', level: 'High' },
-                { time: '2 hours ago', msg: 'Automated loan approval paused due to missing KYC', level: 'Low' },
-              ].map((alert, i) => (
-                <div key={i} className="flex gap-3">
-                  <div className="mt-1 relative flex items-center justify-center">
-                    <div className={cn(
-                      'w-2 h-2 rounded-full absolute',
-                      alert.level === 'High' ? 'bg-error' : alert.level === 'Medium' ? 'bg-accent' : 'bg-outline-variant'
-                    )} />
-                    {i !== 2 && <div className="w-[1px] h-full bg-outline-variant absolute top-3" />}
-                  </div>
-                  <div>
-                    <p className="text-[13px] text-on-surface leading-tight">{alert.msg}</p>
-                    <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider mt-1">{alert.time}</p>
-                  </div>
+          <MotionCard 
+            glass
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <CardContent className="p-6">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-sm">
+                  <Shield className="w-6 h-6" />
                 </div>
-              ))}
-            </div>
-          </div>
+                <div>
+                  <h2 className="text-[16px] font-bold text-on-surface">System Posture</h2>
+                  <p className="text-[13px] text-on-surface-variant font-medium mt-0.5">Global Risk Level</p>
+                </div>
+              </div>
+              
+              <div className="flex items-end justify-between mb-3">
+                <span className="text-[36px] font-bold text-on-surface tracking-tight leading-none">Normal</span>
+                <Badge variant="success" className="gap-1.5 px-2.5 py-1 text-[11px] uppercase tracking-widest mb-1.5">
+                  <CheckCircle className="w-3.5 h-3.5" /> SECURE
+                </Badge>
+              </div>
+              <div className="h-2 w-full bg-surface-variant rounded-full overflow-hidden shadow-inner">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: '25%' }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                  className="h-full bg-primary rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]" 
+                />
+              </div>
+              <p className="text-[12px] text-on-surface-variant mt-4 font-medium leading-relaxed">
+                All automated compliance checks are operational. 0 critical vulnerabilities detected.
+              </p>
+            </CardContent>
+          </MotionCard>
+
+          <MotionCard 
+            glass
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <CardContent className="p-6">
+              <h3 className="text-[15px] font-bold text-on-surface flex items-center gap-2 mb-5">
+                <AlertTriangle className="w-4 h-4 text-accent" />
+                Recent Alerts
+              </h3>
+              <div className="flex flex-col gap-5">
+                {[
+                  { time: '10 mins ago', msg: 'Multiple failed logins from IP 192.168.1.50', level: 'Medium' },
+                  { time: '1 hour ago', msg: 'Anomaly detected in transaction velocity for Merchant #402', level: 'High' },
+                  { time: '2 hours ago', msg: 'Automated loan approval paused due to missing KYC', level: 'Low' },
+                ].map((alert, i) => (
+                  <div key={i} className="flex gap-4">
+                    <div className="mt-1.5 relative flex items-center justify-center">
+                      <div className={cn(
+                        'w-3 h-3 rounded-full absolute shadow-sm',
+                        alert.level === 'High' ? 'bg-destructive shadow-[0_0_8px_rgba(239,68,68,0.5)]' : 
+                        alert.level === 'Medium' ? 'bg-accent shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 
+                        'bg-outline shadow-sm'
+                      )} />
+                      {i !== 2 && <div className="w-[1px] h-full bg-outline/50 absolute top-4" />}
+                    </div>
+                    <div>
+                      <p className="text-[13px] text-on-surface font-semibold leading-relaxed">{alert.msg}</p>
+                      <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest mt-1">{alert.time}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </MotionCard>
         </div>
 
         {/* Right Column - Policy Management */}
         <div className="md:col-span-8">
-          <div className="bg-surface border border-outline-variant rounded-2xl shadow-card h-full flex flex-col">
-            <div className="px-6 py-5 border-b border-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-on-surface-variant" />
-                <h3 className="text-[15px] font-semibold text-on-surface">Automated Policies</h3>
+          <MotionCard 
+            glass
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="h-full flex flex-col"
+          >
+            <div className="px-6 py-5 border-b border-outline/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface/50">
+              <div className="flex items-center gap-2.5">
+                <Lock className="w-5 h-5 text-on-surface-variant" />
+                <h3 className="text-[16px] font-bold text-on-surface">Automated Policies</h3>
               </div>
               <div className="relative">
-                <Search className="w-4 h-4 text-on-surface-variant absolute left-3 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-on-surface-variant absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input 
                   type="text" 
                   placeholder="Search policies..." 
-                  className="pl-9 pr-4 py-1.5 text-[13px] bg-surface-container border border-outline-variant rounded-lg w-full sm:w-64 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                  className="pl-10 pr-4 py-2 text-[13px] bg-surface-variant/50 border border-outline/50 rounded-xl w-full sm:w-72 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent font-medium placeholder:text-on-surface-variant/70 transition-all shadow-inner"
                 />
               </div>
             </div>
 
             <div className="flex-1 p-6 flex flex-col gap-4">
-              {policies.map(policy => {
+              {policies.map((policy, index) => {
                 const isActive = activePolicies.includes(policy.id);
                 return (
-                  <div key={policy.id} className="flex items-start sm:items-center justify-between gap-4 p-4 rounded-xl border border-outline-variant hover:bg-surface-container transition-colors">
+                  <motion.div 
+                    key={policy.id} 
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + (index * 0.1) }}
+                    className="flex items-start sm:items-center justify-between gap-4 p-5 rounded-xl border border-outline/50 hover:bg-surface-variant/30 transition-all shadow-sm"
+                  >
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="text-[14px] font-semibold text-on-surface">{policy.name}</h4>
-                        <span className={cn(
-                          'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border',
-                          policy.risk === 'High' ? 'bg-error/10 text-error border-error/20' : 
-                          policy.risk === 'Medium' ? 'bg-accent/10 text-accent border-accent/20' : 
-                          'bg-surface-container text-on-surface-variant border-outline-variant'
-                        )}>
-                          {policy.risk} Risk
-                        </span>
+                      <div className="flex items-center gap-3 mb-1.5">
+                        <h4 className="text-[15px] font-bold text-on-surface">{policy.name}</h4>
+                        <Badge 
+                          variant={policy.risk === 'High' ? 'destructive' : policy.risk === 'Medium' ? 'warning' : 'outline'}
+                          className="px-2 py-0.5 text-[10px] uppercase tracking-widest"
+                        >
+                          {policy.risk} RISK
+                        </Badge>
                       </div>
-                      <p className="text-[13px] text-on-surface-variant leading-relaxed">{policy.description}</p>
+                      <p className="text-[13px] text-on-surface-variant font-medium leading-relaxed">{policy.description}</p>
                     </div>
                     <button 
                       onClick={() => togglePolicy(policy.id)}
                       className={cn(
                         "transition-colors",
-                        isActive ? "text-primary" : "text-outline-variant hover:text-on-surface-variant"
+                        isActive ? "text-primary drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "text-outline hover:text-on-surface-variant"
                       )}
                     >
-                      {isActive ? <ToggleRight className="w-8 h-8" /> : <ToggleLeft className="w-8 h-8" />}
+                      {isActive ? <ToggleRight className="w-9 h-9" /> : <ToggleLeft className="w-9 h-9" />}
                     </button>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
-          </div>
+          </MotionCard>
         </div>
       </div>
     </div>

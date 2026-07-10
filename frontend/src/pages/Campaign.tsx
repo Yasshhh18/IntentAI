@@ -1,5 +1,11 @@
 import { Megaphone, Target, Clock, Filter, Plus, ArrowUpRight, Zap } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { Card, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { motion } from 'framer-motion';
+
+const MotionCard = motion.create(Card);
 
 const campaigns = [
   { id: '1', name: 'Festive MSME Working Capital', target: 'Retail / Wholesale', audienceSize: 450, expectedConversion: '18%', progress: 65, status: 'Active' },
@@ -8,110 +14,131 @@ const campaigns = [
   { id: '4', name: 'Equipment Financing Q3', target: 'Manufacturing SME', audienceSize: 210, expectedConversion: '15%', progress: 100, status: 'Completed' },
 ];
 
-const statusConfig: Record<string, { bg: string; text: string; border: string; dot: string }> = {
-  Active: { bg: 'bg-primary/10', text: 'text-primary', border: 'border-primary/20', dot: 'bg-primary' },
-  Draft: { bg: 'bg-surface-container', text: 'text-on-surface-variant', border: 'border-outline-variant', dot: 'bg-outline' },
-  Completed: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', dot: 'bg-emerald-500' },
+const statusConfig: Record<string, { variant: 'ai' | 'outline' | 'success', label: string }> = {
+  Active: { variant: 'ai', label: 'ACTIVE' },
+  Draft: { variant: 'outline', label: 'DRAFT' },
+  Completed: { variant: 'success', label: 'COMPLETED' },
 };
 
 export default function Campaign() {
   return (
-    <div className="flex flex-col gap-8 max-w-[1400px] mx-auto">
+    <div className="flex flex-col gap-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-[28px] font-semibold tracking-tight text-on-surface">Campaign Manager</h1>
-          <p className="text-[14px] text-on-surface-variant mt-1">Design and deploy AI-targeted outreach campaigns.</p>
+          <h1 className="text-[32px] font-bold tracking-tight text-on-surface leading-none">Campaign Manager</h1>
+          <p className="text-[14px] text-on-surface-variant font-medium mt-2">Design and deploy AI-targeted outreach campaigns.</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 text-[13px] font-medium text-on-surface bg-surface border border-outline-variant rounded-xl hover:bg-surface-container transition-all shadow-card">
-            <Filter className="w-3.5 h-3.5" /> Filter
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-white bg-accent rounded-xl hover:bg-accent/90 transition-all shadow-sm">
-            <Plus className="w-3.5 h-3.5" /> New Campaign
-          </button>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <Button variant="outline" className="gap-2 glass">
+            <Filter className="w-4 h-4" /> Filter
+          </Button>
+          <Button variant="ai" className="gap-2">
+            <Plus className="w-4 h-4" /> New Campaign
+          </Button>
         </div>
       </div>
 
       {/* Summary Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
         {[
-          { label: 'Total Campaigns', value: '4', icon: Megaphone, color: 'text-on-surface-variant' },
-          { label: 'Active', value: '2', icon: Zap, color: 'text-primary' },
-          { label: 'Total Reach', value: '865', icon: Target, color: 'text-accent' },
-          { label: 'Avg. Conv. Rate', value: '19.3%', icon: Clock, color: 'text-tertiary' },
+          { label: 'Total Campaigns', value: '4', icon: Megaphone, color: 'text-on-surface-variant', delay: 0.1 },
+          { label: 'Active', value: '2', icon: Zap, color: 'text-primary', delay: 0.2 },
+          { label: 'Total Reach', value: '865', icon: Target, color: 'text-accent', delay: 0.3 },
+          { label: 'Avg. Conv. Rate', value: '19.3%', icon: Clock, color: 'text-tertiary', delay: 0.4 },
         ].map(stat => (
-          <div key={stat.label} className="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
-            <div className="flex items-center gap-2 mb-2">
-              <stat.icon className={cn('w-4 h-4', stat.color)} />
-              <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-[0.06em]">{stat.label}</span>
-            </div>
-            <p className="text-[24px] font-semibold text-on-surface tracking-tight tabular-nums">{stat.value}</p>
-          </div>
+          <MotionCard 
+            key={stat.label} 
+            glass 
+            interactive
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: stat.delay }}
+          >
+            <CardContent className="p-5">
+              <div className="flex items-center gap-2.5 mb-3">
+                <stat.icon className={cn('w-4 h-4', stat.color)} />
+                <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">{stat.label}</span>
+              </div>
+              <p className="text-[28px] font-bold text-on-surface tracking-tight tabular-nums leading-none">{stat.value}</p>
+            </CardContent>
+          </MotionCard>
         ))}
       </div>
 
       {/* Campaign Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {campaigns.map(campaign => {
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {campaigns.map((campaign, index) => {
           const sc = statusConfig[campaign.status];
           return (
-            <div key={campaign.id} className="bg-surface border border-outline-variant rounded-2xl p-6 shadow-card hover:-translate-y-0.5 hover:shadow-card-hover transition-all duration-200 flex flex-col gap-4">
-              {/* Top */}
-              <div className="flex items-start justify-between">
-                <div className="w-9 h-9 rounded-xl bg-accent/10 flex items-center justify-center">
-                  <Megaphone className="w-4 h-4 text-accent" />
+            <MotionCard 
+              key={campaign.id} 
+              glass 
+              interactive
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 + (index * 0.1) }}
+              className="flex flex-col group cursor-pointer"
+            >
+              <CardContent className="p-6 flex flex-col gap-5">
+                {/* Top */}
+                <div className="flex items-start justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center shadow-sm">
+                    <Megaphone className="w-5 h-5 text-accent" />
+                  </div>
+                  <Badge variant={sc.variant as any} className="gap-1.5 px-2.5 py-1 text-[10px]">
+                    {campaign.status === 'Active' && <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />}
+                    {sc.label}
+                  </Badge>
                 </div>
-                <span className={cn('flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border', sc.bg, sc.text, sc.border)}>
-                  <span className={cn('w-1.5 h-1.5 rounded-full', sc.dot)} />
-                  {campaign.status}
-                </span>
-              </div>
 
-              {/* Name */}
-              <div>
-                <h3 className="text-[15px] font-semibold text-on-surface leading-tight">{campaign.name}</h3>
-                <p className="text-[12px] text-on-surface-variant mt-1">{campaign.target}</p>
-              </div>
-
-              {/* Progress */}
-              {campaign.status !== 'Draft' && (
+                {/* Name */}
                 <div>
-                  <div className="flex justify-between text-[11px] mb-1.5">
-                    <span className="text-on-surface-variant font-medium">Campaign Progress</span>
-                    <span className="font-bold text-on-surface">{campaign.progress}%</span>
-                  </div>
-                  <div className="h-1.5 rounded-full bg-surface-container overflow-hidden">
-                    <div
-                      className={cn('h-full rounded-full transition-all', campaign.status === 'Completed' ? 'bg-primary' : 'bg-accent')}
-                      style={{ width: `${campaign.progress}%` }}
-                    />
-                  </div>
+                  <h3 className="text-[16px] font-bold text-on-surface leading-tight group-hover:text-accent transition-colors">{campaign.name}</h3>
+                  <p className="text-[13px] text-on-surface-variant font-medium mt-1.5">{campaign.target}</p>
                 </div>
-              )}
 
-              {/* Stats */}
-              <div className="flex gap-4 pt-3 border-t border-outline-variant">
-                <div className="flex-1">
-                  <div className="flex items-center gap-1 text-[10px] text-on-surface-variant font-bold uppercase tracking-[0.06em] mb-1">
-                    <Target className="w-3 h-3" /> Audience
+                {/* Progress */}
+                {campaign.status !== 'Draft' && (
+                  <div>
+                    <div className="flex justify-between text-[12px] mb-2 font-medium">
+                      <span className="text-on-surface-variant">Campaign Progress</span>
+                      <span className="font-bold text-on-surface">{campaign.progress}%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-surface-variant overflow-hidden shadow-inner">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${campaign.progress}%` }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                        className={cn('h-full rounded-full', campaign.status === 'Completed' ? 'bg-primary shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-accent shadow-[0_0_8px_rgba(245,158,11,0.5)]')}
+                      />
+                    </div>
                   </div>
-                  <p className="text-[18px] font-semibold text-on-surface tabular-nums">{campaign.audienceSize}</p>
-                </div>
-                <div className="w-px bg-outline-variant" />
-                <div className="flex-1">
-                  <div className="flex items-center gap-1 text-[10px] text-on-surface-variant font-bold uppercase tracking-[0.06em] mb-1">
-                    <Clock className="w-3 h-3" /> Est. Conv.
+                )}
+
+                {/* Stats */}
+                <div className="flex gap-5 pt-4 border-t border-outline/30 mt-auto">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-1.5 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest mb-1.5">
+                      <Target className="w-3.5 h-3.5" /> Audience
+                    </div>
+                    <p className="text-[20px] font-bold text-on-surface tabular-nums leading-none">{campaign.audienceSize}</p>
                   </div>
-                  <p className="text-[18px] font-semibold text-on-surface">{campaign.expectedConversion}</p>
+                  <div className="w-px bg-outline/30" />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-1.5 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest mb-1.5">
+                      <Clock className="w-3.5 h-3.5" /> Est. Conv.
+                    </div>
+                    <p className="text-[20px] font-bold text-on-surface leading-none">{campaign.expectedConversion}</p>
+                  </div>
+                  <div className="flex items-end">
+                    <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity h-8 px-3">
+                      Details <ArrowUpRight className="w-4 h-4 ml-1.5" />
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex items-end">
-                  <button className="flex items-center gap-1 text-[12px] font-semibold text-accent hover:text-accent/80 transition-colors">
-                    Details <ArrowUpRight className="w-3 h-3" />
-                  </button>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </MotionCard>
           );
         })}
       </div>

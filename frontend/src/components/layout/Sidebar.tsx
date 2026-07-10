@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { cn } from '../../lib/utils';
 import {
   LayoutDashboard, Users, BrainCircuit, LineChart,
-  PieChart, Shield, Activity, Megaphone, Zap, ChevronRight
+  PieChart, Shield, Activity, Megaphone, ChevronRight
 } from 'lucide-react';
 
 const primaryNav = [
@@ -23,95 +24,108 @@ export default function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="w-[240px] bg-surface border-r border-outline-variant flex flex-col h-full flex-shrink-0 z-20">
-      {/* Logo */}
-      <div className="px-5 pt-6 pb-5 border-b border-outline-variant">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
-            <Zap className="w-4 h-4 text-white" />
+    <aside className="w-[260px] glass border-r border-outline/50 flex flex-col h-full flex-shrink-0 z-30 relative">
+      {/* Live status */}
+      <div className="px-6 pt-6 pb-4">
+        <div className="flex items-center gap-2 p-3 bg-surface/50 border border-outline rounded-xl shadow-sm">
+          <div className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </div>
-          <div>
-            <h1 className="text-[15px] font-bold text-on-surface tracking-tight leading-none">IntentIQ</h1>
-            <p className="text-[10px] font-semibold text-on-surface-variant uppercase tracking-[0.08em] mt-0.5">AI Intelligence</p>
+          <div className="flex flex-col">
+            <span className="text-[11px] font-bold text-on-surface uppercase tracking-wider leading-none">System Live</span>
+            <span className="text-[10px] text-on-surface-variant mt-1">IDBI Command Center</span>
           </div>
-        </div>
-        {/* Live status */}
-        <div className="flex items-center gap-1.5 mt-3">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          <span className="text-[10px] font-semibold text-primary uppercase tracking-wider">Live · IDBI Branch 047</span>
         </div>
       </div>
 
-      {/* Primary Navigation */}
-      <div className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.1em] px-3 mb-2">Intelligence</p>
-        {primaryNav.map((item) => {
-          const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              title={item.description}
-              className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150 relative group',
-                isActive
-                  ? 'bg-accent/[0.08] text-accent font-semibold'
-                  : 'text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface'
-              )}
-            >
-              {/* Active left indicator */}
-              {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-accent rounded-r-full" />
-              )}
-              <item.icon
-                className={cn(
-                  'w-4 h-4 flex-shrink-0 transition-colors',
-                  isActive ? 'text-accent' : 'text-on-surface-variant group-hover:text-on-surface'
-                )}
-              />
-              <span className="text-[13px] tracking-[-0.005em]">{item.label}</span>
-              {isActive && <ChevronRight className="w-3 h-3 ml-auto text-accent/60" />}
-            </Link>
-          );
-        })}
+      {/* Navigation */}
+      <div className="flex-1 px-4 py-2 space-y-8 overflow-y-auto custom-scrollbar">
+        
+        <div>
+          <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-2 mb-3">Intelligence</p>
+          <div className="flex flex-col gap-1">
+            {primaryNav.map((item) => {
+              const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  title={item.description}
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors relative group outline-none focus-visible:ring-2 focus-visible:ring-accent',
+                    isActive ? 'text-on-surface font-semibold' : 'text-on-surface-variant font-medium hover:text-on-surface'
+                  )}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="sidebar-active"
+                      className="absolute inset-0 bg-surface-variant/80 border border-outline/50 rounded-xl"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                  {isActive && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-accent rounded-r-full shadow-[0_0_10px_rgba(245,158,11,0.5)] z-10" />
+                  )}
+                  <item.icon
+                    className={cn(
+                      'w-[18px] h-[18px] flex-shrink-0 z-10 transition-colors',
+                      isActive ? 'text-accent' : 'group-hover:text-on-surface'
+                    )}
+                  />
+                  <span className="text-[14px] tracking-tight z-10">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
 
-        {/* System section */}
-        <div className="pt-4">
-          <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.1em] px-3 mb-2">System</p>
-          {systemNav.map((item) => {
-            const isActive = location.pathname.startsWith(item.path);
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={cn(
-                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150 group',
-                  isActive
-                    ? 'bg-accent/[0.08] text-accent font-semibold'
-                    : 'text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface'
-                )}
-              >
-                <item.icon className={cn('w-4 h-4 flex-shrink-0', isActive ? 'text-accent' : 'text-on-surface-variant group-hover:text-on-surface')} />
-                <span className="text-[13px]">{item.label}</span>
-              </Link>
-            );
-          })}
+        <div>
+          <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-2 mb-3">System Controls</p>
+          <div className="flex flex-col gap-1">
+            {systemNav.map((item) => {
+              const isActive = location.pathname.startsWith(item.path);
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors relative group outline-none focus-visible:ring-2 focus-visible:ring-accent',
+                    isActive ? 'text-on-surface font-semibold' : 'text-on-surface-variant font-medium hover:text-on-surface'
+                  )}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="sidebar-active"
+                      className="absolute inset-0 bg-surface-variant/80 border border-outline/50 rounded-xl"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                  {isActive && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-accent rounded-r-full shadow-[0_0_10px_rgba(245,158,11,0.5)] z-10" />
+                  )}
+                  <item.icon className={cn('w-[18px] h-[18px] flex-shrink-0 z-10', isActive ? 'text-accent' : 'group-hover:text-on-surface')} />
+                  <span className="text-[14px] tracking-tight z-10">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
 
       {/* User Profile Footer */}
-      <div className="px-3 pb-4 pt-3 border-t border-outline-variant">
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-container transition-colors cursor-pointer group">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-accent-container text-white flex items-center justify-center text-[11px] font-bold flex-shrink-0">
-            JD
+      <div className="p-4 border-t border-outline/50 bg-surface/30">
+        <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-surface-variant/50 transition-colors cursor-pointer group">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-primary text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0 shadow-sm border border-white/10">
+            YP
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-[13px] font-semibold text-on-surface truncate">John Doe</p>
-            <p className="text-[10px] text-on-surface-variant truncate">Sr. Credit Officer</p>
+            <p className="text-[13px] font-semibold text-on-surface truncate">Yash Patil</p>
+            <p className="text-[11px] text-on-surface-variant truncate">Principal Architect</p>
           </div>
-          <ChevronRight className="w-3 h-3 text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" />
+          <ChevronRight className="w-4 h-4 text-on-surface-variant opacity-0 group-hover:opacity-100 transition-all translate-x-[-4px] group-hover:translate-x-0" />
         </div>
-        <p className="text-[10px] text-on-surface-variant text-center mt-2 opacity-50">IntentIQ v2.1 · Build 2026</p>
+        <p className="text-[10px] text-on-surface-variant/60 text-center mt-3 font-mono">v3.0.0-enterprise</p>
       </div>
     </aside>
   );
