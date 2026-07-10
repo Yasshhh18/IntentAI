@@ -1,4 +1,4 @@
-import { Activity, Server, Database, Cloud, CheckCircle, AlertTriangle, RefreshCw, Clock } from 'lucide-react';
+import { Activity, Server, Database, Cloud, CheckCircle, RefreshCw, Clock } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const services = [

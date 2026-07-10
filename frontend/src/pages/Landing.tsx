@@ -1,4 +1,4 @@
-import { Search, Brain, TrendingUp, Database, Lightbulb, Shield, Zap, Code, Landmark, LineChart, ShieldAlert } from 'lucide-react';
+import { Search, Brain, TrendingUp, Database, Lightbulb, Shield, Zap, Code, Landmark, LineChart } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Landing() {

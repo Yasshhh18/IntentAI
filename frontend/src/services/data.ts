@@ -67,7 +67,7 @@ const FIRST_NAMES = ["Amit", "Priya", "Rahul", "Sneha", "Vikram", "Anjali", "Sur
 const LAST_NAMES = ["Sharma", "Singh", "Patel", "Kumar", "Gupta", "Verma", "Shah", "Reddy", "Rao", "Jain", "Desai", "Joshi", "Iyer", "Nair", "Das", "Bose", "Chauhan", "Yadav", "Rajput", "Malhotra"];
 const OCCUPATIONS = ["IT Professional", "Doctor", "Business Owner", "Teacher", "Engineer", "CA", "Architect", "Government Employee", "Banker", "Consultant"];
 const PIPELINE_STAGES = ['High Intent', 'Contacted', 'Interested', 'Application Started', 'Approved', 'Disbursed'] as const;
-const PRIORITY_TIERS = ['Contact Today', 'This Week', 'Monitor', 'Ignore'] as const;
+// const PRIORITY_TIERS = ['Contact Today', 'This Week', 'Monitor', 'Ignore'] as const;
 
 function randomElement<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];

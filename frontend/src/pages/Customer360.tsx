@@ -3,12 +3,7 @@ import { mockCustomers } from '../services/data';
 import { Wallet, MoreHorizontal, Zap, TrendingUp, CheckCircle2, Mail, PlusSquare, BrainCircuit, Shield, Target, Activity } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-const loanIcons: Record<string, string> = {
-  'Home Loan': '🏠',
-  'Personal Loan': '💳',
-  'Auto Loan': '🚗',
-  'Mortgage': '🏛️',
-};
+
 
 const timelineIconMap: Record<string, string> = {
   salary: '💰',
@@ -37,7 +32,7 @@ export default function Customer360() {
   if (!customer) return <Navigate to="/dashboard" replace />;
 
   const topIntent = customer.intents[0];
-  const isHighConviction = topIntent.score > 85;
+  // const isHighConviction = topIntent.score > 85;
   const loanScores = customer.loanMatchScores || { homeLoan: 92, personalLoan: 58, autoLoan: 74, mortgage: 31 };
 
   return (

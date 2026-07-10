@@ -6,7 +6,7 @@ export default function Reports() {
   const totalIncome = mockCustomers.reduce((acc: any, c: any) => acc + c.assessedActualIncome, 0);
   const totalSavings = mockCustomers.reduce((acc: any, c: any) => acc + c.savings, 0);
   const avgIncome = Math.round(totalIncome / mockCustomers.length / 1000);
-  const savingsRate = ((totalSavings / totalIncome) * 100).toFixed(1);
+  // const savingsRate = ((totalSavings / totalIncome) * 100).toFixed(1);
 
   // Intent Distribution Data
   const intentData = [
@@ -103,7 +103,7 @@ export default function Reports() {
                   paddingAngle={5}
                   dataKey="value"
                 >
-                  {intentData.map((entry, index) => (
+                  {intentData.map((_entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>

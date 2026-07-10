@@ -1,5 +1,5 @@
 import { mockCustomers } from '../services/data';
-import { Users, IndianRupee, TrendingUp, Filter, Download, Radar, BrainCircuit, ArrowUpRight, Phone, Mail, Home, Car, Clock } from 'lucide-react';
+import { IndianRupee, TrendingUp, Filter, Download, Radar, BrainCircuit, ArrowUpRight, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
 
