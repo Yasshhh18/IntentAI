@@ -71,16 +71,75 @@ export default function Landing() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
             >
-              <motion.div 
-                className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-2 rounded-2xl relative z-10 hover:shadow-glass-hover transition-all"
-                animate={{ y: [-12, 12, -12] }}
+              <motion.div
+                className="bg-white/80 backdrop-blur-lg border border-white/60 shadow-glass p-5 rounded-2xl relative z-10 hover:shadow-glass-hover transition-all"
+                animate={{ y: [-8, 8, -8] }}
                 transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               >
-                <img 
-                  className="w-full h-auto rounded-xl shadow-inner object-cover" 
-                  alt="AI Data Flow" 
-                  src="/hero_ai_data_flow.png"
-                />
+                {/* Inline SVG — AI Banking Intelligence Illustration */}
+                <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto rounded-xl">
+                  {/* Background */}
+                  <rect width="480" height="300" rx="16" fill="#f0fdf8" />
+
+                  {/* Subtle grid lines */}
+                  {[60, 120, 180, 240].map(y => (
+                    <line key={y} x1="40" y1={y} x2="440" y2={y} stroke="#d1fae5" strokeWidth="1" strokeDasharray="4 4" />
+                  ))}
+
+                  {/* === INCOME BAR CHART === */}
+                  {/* Declared Income bar */}
+                  <rect x="60" y="160" width="44" height="80" rx="6" fill="#a7f3d0" />
+                  <text x="82" y="155" textAnchor="middle" fontSize="10" fill="#059669" fontWeight="bold">₹1.2L</text>
+                  <text x="82" y="258" textAnchor="middle" fontSize="9" fill="#6b7280">Declared</text>
+
+                  {/* AI Assessed Income bar — taller */}
+                  <rect x="120" y="100" width="44" height="140" rx="6" fill="#10b981" />
+                  <text x="142" y="95" textAnchor="middle" fontSize="10" fill="#065f46" fontWeight="bold">₹1.85L</text>
+                  <text x="142" y="258" textAnchor="middle" fontSize="9" fill="#6b7280">AI Assessed</text>
+
+                  {/* Repayment Capacity bar */}
+                  <rect x="180" y="130" width="44" height="110" rx="6" fill="#34d399" opacity="0.7" />
+                  <text x="202" y="125" textAnchor="middle" fontSize="10" fill="#065f46" fontWeight="bold">83K</text>
+                  <text x="202" y="258" textAnchor="middle" fontSize="9" fill="#6b7280">Capacity</text>
+
+                  {/* === TRENDING LINE CHART === */}
+                  <polyline
+                    points="255,220 285,185 315,195 345,140 375,120 405,80 430,60"
+                    fill="none"
+                    stroke="#0f6a4a"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* Area fill under line */}
+                  <polygon
+                    points="255,220 285,185 315,195 345,140 375,120 405,80 430,60 430,240 255,240"
+                    fill="url(#greenGrad)"
+                    opacity="0.15"
+                  />
+                  <defs>
+                    <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  {/* Dots on line */}
+                  {[[255,220],[285,185],[315,195],[345,140],[375,120],[405,80],[430,60]].map(([cx,cy], i) => (
+                    <circle key={i} cx={cx} cy={cy} r="4" fill="#0f6a4a" stroke="white" strokeWidth="2" />
+                  ))}
+                  {/* Chart label */}
+                  <text x="342" y="270" textAnchor="middle" fontSize="9" fill="#6b7280">Conversion Trend</text>
+                  <text x="342" y="260" textAnchor="middle" fontSize="11" fill="#0f6a4a" fontWeight="bold">&gt; 34% ↑</text>
+
+                  {/* === INTENT SCORE NODES === */}
+                  <circle cx="390" cy="195" r="22" fill="#ecfdf5" stroke="#10b981" strokeWidth="1.5" />
+                  <text x="390" y="191" textAnchor="middle" fontSize="9" fill="#065f46" fontWeight="bold">Intent</text>
+                  <text x="390" y="204" textAnchor="middle" fontSize="11" fill="#059669" fontWeight="bold">87</text>
+
+                  {/* Label — top left */}
+                  <rect x="40" y="20" width="130" height="28" rx="8" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="1" />
+                  <text x="55" y="39" fontSize="12" fill="#0f6a4a" fontWeight="bold">IntentIQ Analytics</text>
+                </svg>
               </motion.div>
               
               {/* Floating UI element */}
