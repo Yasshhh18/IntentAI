@@ -2,6 +2,86 @@
 @config "../tailwind.config.js";
 
 @layer base {
+  :root {
+    --background: 255 255 255;
+    --on-background: 9 9 11;
+    --surface: 255 255 255;
+    --on-surface: 9 9 11;
+    --surface-dim: 244 244 245;
+    --surface-variant: 244 244 245;
+    --on-surface-variant: 82 82 91;
+    --surface-container-lowest: 255 255 255;
+    --surface-container-low: 250 250 250;
+    --surface-container: 255 255 255;
+    --surface-container-high: 244 244 245;
+    --surface-container-highest: 228 228 231;
+    --outline: 228 228 231;
+    --outline-variant: 161 161 170;
+    --primary: 16 185 129;
+    --on-primary: 255 255 255;
+    --primary-container: 209 250 229;
+    --on-primary-container: 6 78 59;
+    --accent: 245 158 11;
+    --on-accent: 255 255 255;
+    --accent-container: 254 243 199;
+    --on-accent-container: 120 53 15;
+    --secondary: 113 113 122;
+    --on-secondary: 255 255 255;
+    --secondary-container: 228 228 231;
+    --on-secondary-container: 39 39 42;
+    --tertiary: 249 115 22;
+    --on-tertiary: 255 255 255;
+    --tertiary-container: 255 237 213;
+    --on-tertiary-container: 124 45 18;
+    --error: 239 68 68;
+    --on-error: 255 255 255;
+    --error-container: 254 226 226;
+    --on-error-container: 127 29 29;
+    --primary-fixed: 16 185 129;
+    --accent-fixed: 245 158 11;
+    --surface-bright: 255 255 255;
+  }
+
+  .dark {
+    --background: 9 9 11;
+    --on-background: 250 250 250;
+    --surface: 18 18 20;
+    --on-surface: 250 250 250;
+    --surface-dim: 24 24 27;
+    --surface-variant: 39 39 42;
+    --on-surface-variant: 161 161 170;
+    --surface-container-lowest: 0 0 0;
+    --surface-container-low: 9 9 11;
+    --surface-container: 18 18 20;
+    --surface-container-high: 24 24 27;
+    --surface-container-highest: 39 39 42;
+    --outline: 39 39 42;
+    --outline-variant: 63 63 70;
+    --primary: 16 185 129;
+    --on-primary: 2 44 34;
+    --primary-container: 6 78 59;
+    --on-primary-container: 52 211 153;
+    --accent: 245 158 11;
+    --on-accent: 69 26 3;
+    --accent-container: 120 53 15;
+    --on-accent-container: 251 191 36;
+    --secondary: 113 113 122;
+    --on-secondary: 250 250 250;
+    --secondary-container: 39 39 42;
+    --on-secondary-container: 228 228 231;
+    --tertiary: 249 115 22;
+    --on-tertiary: 67 20 7;
+    --tertiary-container: 124 45 18;
+    --on-tertiary-container: 253 186 116;
+    --error: 239 68 68;
+    --on-error: 69 10 10;
+    --error-container: 127 29 29;
+    --on-error-container: 252 165 165;
+    --primary-fixed: 16 185 129;
+    --accent-fixed: 245 158 11;
+    --surface-bright: 39 39 42;
+  }
+
   html {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;

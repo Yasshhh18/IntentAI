@@ -317,7 +317,7 @@ export default function Customer360() {
                     className="relative flex flex-col gap-1"
                   >
                     <div className={cn('absolute -left-9 top-1 w-7 h-7 rounded-full border-2 flex items-center justify-center text-[10px] shadow-sm',
-                      isLast ? 'bg-accent border-accent text-white shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-surface border-outline text-on-surface-variant')}>
+                      isLast ? 'bg-accent border-accent text-on-accent shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-surface border-outline text-on-surface-variant')}>
                       {isLast ? <Sparkles className="w-3 h-3" /> : <div className="w-1.5 h-1.5 rounded-full bg-on-surface-variant" />}
                     </div>
                     <div className="flex items-baseline justify-between gap-3 ml-2">

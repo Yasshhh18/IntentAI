@@ -19,7 +19,7 @@ export default function Landing() {
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   return (
-    <div className="bg-background min-h-screen flex flex-col font-sans text-on-surface overflow-x-hidden selection:bg-accent/20 selection:text-white" ref={targetRef}>
+    <div className="bg-background min-h-screen flex flex-col font-sans text-on-surface overflow-x-hidden selection:bg-accent/20 selection:text-on-surface" ref={targetRef}>
       {/* Dynamic Background */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-surface/20 via-background to-background"></div>
@@ -51,7 +51,7 @@ export default function Landing() {
             <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/30 flex items-center justify-center">
               <Brain className="w-4 h-4 text-accent" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-white">IntentIQ</span>
+            <span className="text-xl font-bold tracking-tight text-on-surface">IntentIQ</span>
           </div>
           
           <div className="hidden md:flex items-center gap-8">
@@ -61,7 +61,7 @@ export default function Landing() {
                 onClick={() => setActiveNav(id)}
                 className={cn(
                   "text-[14px] font-medium transition-colors relative py-2",
-                  activeNav === id ? "text-white" : "text-on-surface-variant hover:text-white"
+                  activeNav === id ? "text-on-surface" : "text-on-surface-variant hover:text-on-surface"
                 )}
               >
                 {label}
@@ -76,7 +76,7 @@ export default function Landing() {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="text-on-surface-variant hover:text-white transition-colors">
+            <button className="text-on-surface-variant hover:text-on-surface transition-colors">
               <Search className="w-4 h-4" />
             </button>
             <Button variant="ai" size="sm" onClick={() => navigate('/dashboard')} className="gap-2">
@@ -105,7 +105,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-[56px] md:text-[72px] font-bold leading-[1.1] tracking-tight mb-8 text-white"
+              className="text-[56px] md:text-[72px] font-bold leading-[1.1] tracking-tight mb-8 text-on-surface"
             >
               Move Beyond <br />
               <span className="text-gradient-accent">Traditional Metrics.</span>
@@ -196,7 +196,7 @@ export default function Landing() {
         {/* Features Grid */}
         <section className="px-6 mb-32 max-w-[1400px] mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-[32px] md:text-[40px] font-bold text-white mb-4 tracking-tight">Enterprise Intelligence</h2>
+            <h2 className="text-[32px] md:text-[40px] font-bold text-on-surface mb-4 tracking-tight">Enterprise Intelligence</h2>
             <p className="text-[16px] text-on-surface-variant max-w-2xl mx-auto">A seamless pipeline from raw data to actionable relationship intelligence.</p>
           </div>
           
@@ -215,10 +215,10 @@ export default function Landing() {
                 className="p-8 rounded-2xl glass hover:bg-surface-variant/30 transition-colors group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-6 shadow-sm border border-white/5", feature.bg, feature.color)}>
+                <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-6 shadow-sm border border-on-surface/5", feature.bg, feature.color)}>
                   <feature.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-[20px] font-bold text-white mb-3">{feature.title}</h3>
+                <h3 className="text-[20px] font-bold text-on-surface mb-3">{feature.title}</h3>
                 <p className="text-[14px] text-on-surface-variant leading-relaxed font-medium">{feature.desc}</p>
               </motion.div>
             ))}
@@ -229,14 +229,14 @@ export default function Landing() {
         <section className="px-6 mb-32 max-w-[1400px] mx-auto relative">
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-[120px] -z-10" />
            <div className="text-center mb-16">
-            <h2 className="text-[32px] md:text-[40px] font-bold text-white mb-4 tracking-tight">The IntentIQ Advantage</h2>
+            <h2 className="text-[32px] md:text-[40px] font-bold text-on-surface mb-4 tracking-tight">The IntentIQ Advantage</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Traditional */}
             <div className="glass rounded-2xl p-8 relative overflow-hidden opacity-70">
                <Badge variant="outline" className="absolute top-6 right-6">Traditional Banking</Badge>
-               <h3 className="text-[20px] font-bold text-white mb-8">The Old Way</h3>
+               <h3 className="text-[20px] font-bold text-on-surface mb-8">The Old Way</h3>
                <ul className="space-y-6">
                  {[
                    ['Manual Reviews', 'RM manually scans 200+ customers daily'],
@@ -256,7 +256,7 @@ export default function Landing() {
             <div className="glass rounded-2xl p-8 relative overflow-hidden border-accent/30 shadow-[0_0_30px_rgba(245,158,11,0.05)] bg-surface/80">
                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 blur-2xl" />
                <Badge variant="ai" className="absolute top-6 right-6">IntentIQ AI</Badge>
-               <h3 className="text-[20px] font-bold text-white mb-8">AI Intelligence</h3>
+               <h3 className="text-[20px] font-bold text-on-surface mb-8">AI Intelligence</h3>
                <ul className="space-y-6 relative z-10">
                  {[
                    ['AI Opportunity Feed', 'Ranked, prioritized leads ready to act on'],
@@ -284,8 +284,8 @@ export default function Landing() {
             © 2026 IntentIQ Platform. Enterprise AI.
           </div>
           <div className="flex gap-6 text-[13px] font-medium text-on-surface-variant">
-            <a href="#" className="hover:text-white transition-colors">Documentation</a>
-            <a href="#" className="hover:text-white transition-colors">Security</a>
+            <a href="#" className="hover:text-on-surface transition-colors">Documentation</a>
+            <a href="#" className="hover:text-on-surface transition-colors">Security</a>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
               All Systems Optimal

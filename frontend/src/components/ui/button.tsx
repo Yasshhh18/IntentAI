@@ -16,7 +16,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-surface-variant hover:text-on-surface text-on-surface-variant",
         link: "text-primary underline-offset-4 hover:underline",
         ai: "bg-surface border border-accent/20 text-accent hover:bg-accent/10 hover:border-accent/40 shadow-[0_0_15px_rgba(245,158,11,0.15)]",
-        glass: "bg-surface/10 backdrop-blur-md border border-white/10 text-white hover:bg-surface/20",
+        glass: "bg-surface/10 backdrop-blur-md border border-glass-border text-on-surface hover:bg-surface/20",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -116,7 +116,7 @@ export default function Sidebar() {
       {/* User Profile Footer */}
       <div className="p-4 border-t border-outline/50 bg-surface/30">
         <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-surface-variant/50 transition-colors cursor-pointer group">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-primary text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0 shadow-sm border border-white/10">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-primary text-on-accent flex items-center justify-center text-[12px] font-bold flex-shrink-0 shadow-sm border border-glass-border">
             YP
           </div>
           <div className="min-w-0 flex-1">

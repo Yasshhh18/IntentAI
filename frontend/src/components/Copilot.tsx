@@ -72,10 +72,10 @@ export default function Copilot() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 w-12 h-12 bg-accent text-white rounded-full shadow-lg flex items-center justify-center z-50 hover:bg-accent/90 transition-colors"
+            className="fixed bottom-6 right-6 w-12 h-12 bg-accent text-on-accent rounded-full shadow-lg flex items-center justify-center z-50 hover:bg-accent/90 transition-colors"
           >
             <BrainCircuit className="w-5 h-5" />
-            <span className="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-white" />
+            <span className="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-surface" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -93,13 +93,13 @@ export default function Copilot() {
             {/* Header */}
             <div className="px-4 py-3.5 bg-accent flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <BrainCircuit className="w-4 h-4 text-white" />
-                <span className="text-[14px] font-semibold text-white">IntentIQ Copilot</span>
-                <span className="flex items-center gap-1 px-2 py-0.5 bg-white/20 rounded-full text-[10px] font-bold text-white uppercase tracking-[0.06em]">
+                <BrainCircuit className="w-4 h-4 text-on-accent" />
+                <span className="text-[14px] font-semibold text-on-accent">IntentIQ Copilot</span>
+                <span className="flex items-center gap-1 px-2 py-0.5 bg-on-accent/20 rounded-full text-[10px] font-bold text-on-accent uppercase tracking-[0.06em]">
                   <Sparkles className="w-2.5 h-2.5" /> AI
                 </span>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10">
+              <button onClick={() => setIsOpen(false)} className="text-on-accent/70 hover:text-on-accent transition-colors p-1 rounded-lg hover:bg-on-accent/10">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -110,14 +110,14 @@ export default function Copilot() {
                 <div key={msg.id} className={cn('flex gap-2.5', msg.role === 'user' ? 'flex-row-reverse' : '')}>
                   <div className={cn(
                     'w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5',
-                    msg.role === 'user' ? 'bg-accent text-white' : 'bg-surface border border-outline-variant text-accent'
+                    msg.role === 'user' ? 'bg-accent text-on-accent' : 'bg-surface border border-outline-variant text-accent'
                   )}>
                     {msg.role === 'user' ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
                   </div>
                   <div className={cn(
                     'max-w-[80%] px-3.5 py-2.5 rounded-2xl text-[13px] leading-relaxed',
                     msg.role === 'user'
-                      ? 'bg-accent text-white rounded-tr-sm'
+                      ? 'bg-accent text-on-accent rounded-tr-sm'
                       : 'bg-surface border border-outline-variant text-on-surface rounded-tl-sm shadow-card'
                   )}>
                     {msg.content}
@@ -169,7 +169,7 @@ export default function Copilot() {
                   <button
                     type="submit"
                     disabled={!input.trim() || isTyping}
-                    className="w-9 h-9 bg-accent text-white rounded-xl flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors flex-shrink-0"
+                    className="w-9 h-9 bg-accent text-on-accent rounded-xl flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent/90 transition-colors flex-shrink-0"
                   >
                     <Send className="w-3.5 h-3.5 ml-0.5" />
                   </button>
