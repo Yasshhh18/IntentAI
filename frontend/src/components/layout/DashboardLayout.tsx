@@ -10,7 +10,9 @@ export default function DashboardLayout() {
   return (
     <div className="bg-background text-on-surface font-sans h-screen flex flex-col overflow-hidden selection:bg-accent/20">
       {/* Premium top accent bar */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-primary via-accent to-primary flex-shrink-0 z-50 opacity-80" />
+      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary/60 through-accent/80 to-transparent flex-shrink-0 z-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-60" />
+      </div>
       
       <Topbar />
       
