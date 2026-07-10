@@ -142,7 +142,22 @@ export default function Landing() {
                 </svg>
               </motion.div>
               
-              {/* Floating UI element */}
+              {/* Floating badge — TOP RIGHT: AI Intent Score */}
+              <motion.div
+                className="absolute -top-5 -right-6 bg-white/80 backdrop-blur-lg border border-white/60 shadow-glass p-3 rounded-xl flex items-center gap-3 z-20"
+                animate={{ y: [-8, 8, -8], rotate: [2, -2, 2] }}
+                transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
+              >
+                <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center">
+                  <Brain className="text-accent w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">AI Intent Score</p>
+                  <p className="text-xl font-bold text-accent tracking-tight">87 / 100</p>
+                </div>
+              </motion.div>
+
+              {/* Floating UI element — BOTTOM LEFT: Lead Conversion */}
               <motion.div 
                 className="absolute -bottom-6 -left-6 bg-white/80 backdrop-blur-lg border border-white/60 shadow-glass p-4 rounded-xl flex items-center gap-4 z-20"
                 animate={{ y: [8, -15, 8], rotate: [-2, 2, -2] }}
