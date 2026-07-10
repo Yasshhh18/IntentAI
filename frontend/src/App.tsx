@@ -9,6 +9,7 @@ import Reports from './pages/Reports';
 import Campaign from './pages/Campaign';
 import Settings from './pages/Settings';
 import Health from './pages/Health';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/reports" element={<Reports />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/health" element={<Health />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

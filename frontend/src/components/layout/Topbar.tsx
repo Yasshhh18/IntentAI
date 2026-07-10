@@ -1,11 +1,13 @@
-import { Search, Bell, Moon, Sun, Sparkles, Command } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Search, Bell, Moon, Sun, Sparkles, Command, Settings, LogOut, User, CreditCard, ChevronDown } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '../ui/button';
 import { useState, useEffect } from 'react';
 
 export default function Topbar() {
   const [isDark, setIsDark] = useState(true);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check initial state from HTML class
@@ -22,7 +24,7 @@ export default function Topbar() {
     }
   };
   return (
-    <header className="h-[64px] bg-surface/40 backdrop-blur-2xl border-b border-glass-border flex items-center justify-between px-6 flex-shrink-0 z-40 sticky top-0 relative overflow-hidden">
+    <header className="h-[64px] bg-surface/40 backdrop-blur-2xl border-b border-glass-border flex items-center justify-between px-6 flex-shrink-0 z-40 sticky top-0 relative">
       {/* Subtle animated shimmer across header */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div
@@ -105,18 +107,78 @@ export default function Topbar() {
         <div className="w-px h-6 bg-glass-border mx-1.5" />
 
         {/* Profile */}
-        <button className="flex items-center gap-2.5 pl-1 hover:opacity-80 transition-opacity group">
-          <div className="text-right hidden sm:block">
-            <p className="text-[13px] font-bold text-on-surface leading-none tracking-tight">Yash Patil</p>
-            <p className="text-[10px] text-on-surface-variant/80 mt-0.5 font-medium">Principal Architect</p>
-          </div>
-          <div className="relative">
-            <div className="absolute -inset-0.5 bg-gradient-to-br from-accent to-primary rounded-full opacity-50 blur-[2px] group-hover:opacity-80 transition-opacity" />
-            <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-accent via-amber-500 to-primary text-on-accent flex items-center justify-center text-[11px] font-bold border-2 border-surface/80 shadow-lg">
-              YP
+        <div className="relative">
+          <button 
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+            className="flex items-center gap-2.5 pl-1 hover:opacity-80 transition-opacity group"
+          >
+            <div className="text-right hidden sm:block">
+              <p className="text-[13px] font-bold text-on-surface leading-none tracking-tight">Yash Patil</p>
+              <p className="text-[10px] text-on-surface-variant/80 mt-0.5 font-medium">Principal Architect</p>
             </div>
-          </div>
-        </button>
+            <div className="relative flex items-center gap-1.5">
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-accent to-primary rounded-full opacity-50 blur-[2px] group-hover:opacity-80 transition-opacity" />
+              <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-accent via-amber-500 to-primary text-on-accent flex items-center justify-center text-[11px] font-bold border-2 border-surface/80 shadow-lg">
+                YP
+              </div>
+              <ChevronDown className="w-3.5 h-3.5 text-on-surface-variant group-hover:text-on-surface transition-colors hidden sm:block" />
+            </div>
+          </button>
+
+          {/* Profile Dropdown */}
+          {isProfileOpen && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setIsProfileOpen(false)} />
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-0 top-[calc(100%+8px)] w-56 bg-surface/90 backdrop-blur-xl border border-glass-border rounded-2xl shadow-card py-2 z-50 flex flex-col"
+              >
+                <div className="px-4 py-2.5 border-b border-glass-border/50 mb-1">
+                  <p className="text-[14px] font-bold text-on-surface">Yash Patil</p>
+                  <p className="text-[11px] text-on-surface-variant font-medium mt-0.5">yash.patil@idbi.co.in</p>
+                </div>
+                
+                <div className="flex flex-col px-1.5">
+                  <button 
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate('/profile');
+                    }}
+                    className="flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 rounded-xl transition-colors"
+                  >
+                    <User className="w-4 h-4" /> My Profile
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate('/settings');
+                    }}
+                    className="flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 rounded-xl transition-colors"
+                  >
+                    <Settings className="w-4 h-4" /> Risk Settings
+                  </button>
+                  <button className="flex items-center justify-between px-3 py-2 text-[13px] font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 rounded-xl transition-colors">
+                    <div className="flex items-center gap-2.5">
+                      <CreditCard className="w-4 h-4" /> Usage & Billing
+                    </div>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 bg-accent/10 text-accent rounded-md">PRO</span>
+                  </button>
+                </div>
+
+                <div className="h-px w-full bg-glass-border/50 my-1" />
+                
+                <div className="px-1.5">
+                  <button className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-error hover:bg-error/10 rounded-xl transition-colors">
+                    <LogOut className="w-4 h-4" /> Sign Out
+                  </button>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );
