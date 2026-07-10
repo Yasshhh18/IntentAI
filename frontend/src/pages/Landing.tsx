@@ -1,5 +1,6 @@
 import { Search, Brain, TrendingUp, Database, Lightbulb, Shield, Zap, Code, Landmark, LineChart } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -38,7 +39,12 @@ export default function Landing() {
           <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-accent/20 rounded-full blur-[120px] -z-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
           
           <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
-            <div className="space-y-6">
+            <motion.div 
+              className="space-y-6"
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container/80 backdrop-blur-md rounded-full text-primary text-xs font-bold uppercase tracking-wider border border-primary/20 shadow-[0_0_15px_rgba(15,106,74,0.15)]">
                 <Brain className="w-4 h-4 text-accent" />
                 Powered by Advanced AI
@@ -57,19 +63,32 @@ export default function Landing() {
                   Explore Features
                 </button>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="relative mt-8 md:mt-0">
-              <div className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-2 rounded-2xl relative z-10 hover:shadow-glass-hover transition-all">
+            <motion.div 
+              className="relative mt-8 md:mt-0"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            >
+              <motion.div 
+                className="bg-white/70 backdrop-blur-lg border border-white/60 shadow-glass p-2 rounded-2xl relative z-10 hover:shadow-glass-hover transition-all"
+                animate={{ y: [-12, 12, -12] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              >
                 <img 
                   className="w-full h-auto rounded-xl shadow-inner object-cover" 
                   alt="AI Data Flow" 
                   src="/hero_ai_data_flow.png"
                 />
-              </div>
+              </motion.div>
               
               {/* Floating UI element */}
-              <div className="absolute -bottom-6 -left-6 bg-white/80 backdrop-blur-lg border border-white/60 shadow-glass p-4 rounded-xl flex items-center gap-4 animate-bounce z-20" style={{ animationDuration: '3s' }}>
+              <motion.div 
+                className="absolute -bottom-6 -left-6 bg-white/80 backdrop-blur-lg border border-white/60 shadow-glass p-4 rounded-xl flex items-center gap-4 z-20"
+                animate={{ y: [8, -15, 8], rotate: [-2, 2, -2] }}
+                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+              >
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <TrendingUp className="text-primary w-5 h-5" />
                 </div>
@@ -77,8 +96,8 @@ export default function Landing() {
                   <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Lead Conversion Rate</p>
                   <p className="text-2xl font-bold text-primary tracking-tight">&gt; 34%</p>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </section>
 
