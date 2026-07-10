@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IntentIQ AI - Know What Your Customer Needs Before They Ask</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#266641",
+                    "surface-dim": "#cbdbf5",
+                    "surface-bright": "#f8f9ff",
+                    "background": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#5a1c00",
+                    "outline-variant": "#bec9be",
+                    "inverse-primary": "#83d99d",
+                    "on-secondary-fixed-variant": "#7f2b00",
+                    "on-background": "#0b1c30",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-container": "#9fe1b3",
+                    "on-surface-variant": "#3f4940",
+                    "surface-container-highest": "#d3e4fe",
+                    "primary": "#004d28",
+                    "on-secondary-fixed": "#370e00",
+                    "surface": "#f8f9ff",
+                    "surface-container": "#e5eeff",
+                    "inverse-surface": "#213145",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#00522b",
+                    "on-tertiary-fixed": "#00210f",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary": "#044e2b",
+                    "primary-fixed": "#9ef5b8",
+                    "on-primary-container": "#8ee4a8",
+                    "secondary": "#a63b00",
+                    "primary-fixed-dim": "#83d99d",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#0b522f",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#00210e",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#aef2c2",
+                    "tertiary-fixed-dim": "#93d5a7",
+                    "surface-variant": "#d3e4fe",
+                    "outline": "#6f7a70",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#dce9ff",
+                    "on-surface": "#0b1c30",
+                    "secondary-fixed": "#ffdbce",
+                    "secondary-fixed-dim": "#ffb599",
+                    "surface-tint": "#0b6d3c",
+                    "secondary-container": "#fc6c29",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary-container": "#006838"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "card-gap": "12px",
+                    "container-padding": "20px",
+                    "margin-page": "24px",
+                    "base_unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-uppercase": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "title-sm": ["Inter"],
+                    "data-tabular": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "label-uppercase": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "title-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "data-tabular": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; color: #0b1c30; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant shadow-sm flex justify-between items-center w-full px-margin-page py-2 z-50 docked full-width top sticky top-0">
+<div class="flex items-center gap-4">
+<span class="text-title-sm font-title-sm font-bold text-primary dark:text-primary-fixed">IntentIQ AI</span>
+</div>
+<div class="hidden md:flex items-center gap-6 text-body-md font-body-md">
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary pb-1" href="#">Platform</a>
+<a class="text-on-surface-variant dark:text-surface-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors pb-1" href="#">Solutions</a>
+<a class="text-on-surface-variant dark:text-surface-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors pb-1" href="#">Resources</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-body-sm font-body-sm hover:opacity-90 transition-opacity">Request Demo</button>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative pt-20 pb-32 px-margin-page overflow-hidden">
+<div class="absolute inset-0 z-0 bg-gradient-to-br from-surface-container-lowest to-surface-container-low opacity-50"></div>
+<div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+<div class="space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-primary text-label-uppercase font-label-uppercase border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+                        Powered by Advanced AI
+                    </div>
+<h1 class="text-display-lg font-display-lg text-on-background">Know What Your Customer Needs Before They Ask.</h1>
+<p class="text-headline-md font-headline-md text-on-surface-variant font-normal">
+                        Transform banking relationships with predictive intelligence. Anticipate financial needs, mitigate risks, and personalize offers in real-time.
+                    </p>
+<div class="flex gap-4 pt-4">
+<button class="bg-primary text-on-primary px-6 py-3 rounded-lg font-body-md shadow-md hover:shadow-lg transition-all">Start Simulation</button>
+<button class="bg-surface-container-lowest border border-outline-variant text-on-background px-6 py-3 rounded-lg font-body-md hover:bg-surface-container-low transition-colors">Explore Features</button>
+</div>
+</div>
+<div class="relative">
+<img class="w-full h-auto rounded-xl shadow-2xl glass-card object-cover" data-alt="A sophisticated, high-end 3D render illustrating AI data flow in a banking context. Glassy, translucent nodes connected by glowing tubes transmit data, representing 'Customer Behavior', 'AI Intelligence', and 'Financial Products'. The aesthetic is clean, light-mode, and modern corporate, utilizing a color palette of soft whites, light greens, and subtle warm accents to convey advanced technology and trust." src="https://lh3.googleusercontent.com/aida/AP1WRLt6Jzzcxfb2HLk6FyihwKxhzyqsEWwOiDI7knnk-AbA84o2Vsr9-bnTy6A9W-0W5iBX2d-2L9tcQ8EJft_7_tRRKmznwR6-9tJRZqzqd4idXUGXy0SvvNdZG9FuVBm__sZWiI-s8zjhfQL_w2kzBKU0VKvkJ3iUOdLMcypr-Gjq1yBzySOU3fqVTOou63nfkpP29TMvzeydfxwUIlaAkZgFhsyaP_uTqv1Sx8gCpTR7iSzBbkjEOp2Vog"/>
+<!-- Floating UI elements to add depth -->
+<div class="absolute -bottom-6 -left-6 glass-card p-4 rounded-xl flex items-center gap-4 animate-bounce" style="animation-duration: 3s;">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">trending_up</span>
+</div>
+<div>
+<p class="text-label-uppercase font-label-uppercase text-on-surface-variant">Prediction Accuracy</p>
+<p class="text-headline-md font-headline-md text-primary">94.8%</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How it Works Section -->
+<section class="py-24 px-margin-page bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-display-lg font-display-lg text-on-background mb-4">How IntentIQ Works</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-2xl mx-auto">A seamless pipeline from raw data to actionable relationship intelligence.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="glass-card p-8 rounded-xl relative overflow-hidden group hover:shadow-lg transition-all">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined text-[24px]">database</span>
+</div>
+<h3 class="text-title-sm font-title-sm text-on-background mb-3">1. Data Ingestion</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Securely aggregate omnichannel data points including transaction history, browsing behavior, and market signals.</p>
+</div>
+<!-- Step 2 -->
+<div class="glass-card p-8 rounded-xl relative overflow-hidden group hover:shadow-lg transition-all">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-6 text-secondary">
+<span class="material-symbols-outlined text-[24px]">model_training</span>
+</div>
+<h3 class="text-title-sm font-title-sm text-on-background mb-3">2. AI Analysis</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Proprietary deep learning models analyze patterns to identify life events, financial stress, or growth opportunities.</p>
+</div>
+<!-- Step 3 -->
+<div class="glass-card p-8 rounded-xl relative overflow-hidden group hover:shadow-lg transition-all">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary-container/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-6 text-tertiary-container">
+<span class="material-symbols-outlined text-[24px]">insights</span>
+</div>
+<h3 class="text-title-sm font-title-sm text-on-background mb-3">3. Actionable Intelligence</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Deliver hyper-personalized product recommendations and risk alerts directly to the underwriter's cockpit.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Section: Features -->
+<section class="py-24 px-margin-page bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="mb-12">
+<h2 class="text-display-lg font-display-lg text-on-background">Platform Capabilities</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[240px]">
+<!-- Large Feature: Behavior Intelligence -->
+<div class="md:col-span-2 md:row-span-2 glass-card rounded-xl p-8 flex flex-col relative overflow-hidden">
+<div class="z-10 flex-grow">
+<h3 class="text-title-sm font-title-sm text-on-background mb-2">Behavior Intelligence</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant max-w-sm">Map complex customer journeys and predict next-best-actions with high accuracy using multi-dimensional behavior modeling.</p>
+</div>
+<div class="mt-auto z-10">
+<img class="w-full h-48 object-cover rounded-lg border border-outline-variant/20 shadow-sm" data-alt="A stylized, light-themed data visualization showing a network graph or complex behavior flow chart. The nodes are glowing subtly in primary green and orange hues against a clean, off-white background, typical of a modern corporate dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVQQFwpbL2P4m6IUm5zCnFN32ecwulw3KOFPdmePKd6H-KZC_Py6Jkh_b923s2Gdk1vTjjWC6GT7mgdMsfbx559nIhFWSaElQX4-xAKB7KtyDAfFwtGapCseUnm7krck92S7GUkctYey3QIaTI_ZzpJCLho7y_bOifsfd9aHCYx1TZfo9jq2bJplxw86gHA5w7NLqg8gckNZ19XAzAYPoJRu71Cw0MWoWlfV3EjCI4osu6ezu5lQk1"/>
+</div>
+</div>
+<!-- Medium Feature: Security -->
+<div class="md:col-span-2 glass-card rounded-xl p-8 flex flex-col justify-between bg-primary text-on-primary">
+<div>
+<div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">security</span>
+</div>
+<h3 class="text-title-sm font-title-sm mb-2">Bank-Grade Security</h3>
+<p class="text-body-sm font-body-sm opacity-90">Enterprise-level encryption, strict access controls, and full regulatory compliance built into the core architecture.</p>
+</div>
+</div>
+<!-- Small Feature 1 -->
+<div class="glass-card rounded-xl p-6 flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-[32px] text-secondary mb-3">speed</span>
+<h4 class="text-body-md font-body-md font-semibold text-on-background">Real-Time Processing</h4>
+<p class="text-label-uppercase font-label-uppercase text-on-surface-variant mt-2">&lt; 50ms Latency</p>
+</div>
+<!-- Small Feature 2 -->
+<div class="glass-card rounded-xl p-6 flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-[32px] text-tertiary-container mb-3">integration_instructions</span>
+<h4 class="text-body-md font-body-md font-semibold text-on-background">API First</h4>
+<p class="text-label-uppercase font-label-uppercase text-on-surface-variant mt-2">Seamless Integration</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-on-background border-t border-outline-variant flex justify-between items-center px-margin-page py-base_unit w-full docked full-width bottom-0 py-6">
+<div class="text-body-sm font-body-sm text-on-surface-variant">
+            © 2024 IDBI Bank - IntentIQ AI Division. Proprietary &amp; Confidential.
+        </div>
+<div class="flex gap-6 text-body-sm font-body-sm">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Legal Compliance</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                System Status: Optimal
+            </span>
+</div>
+</footer>
+</body></html>
