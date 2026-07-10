@@ -1,9 +1,11 @@
 import { Search, Brain, TrendingUp, Database, Lightbulb, Shield, Zap, Code, Landmark, LineChart } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 export default function Landing() {
   const navigate = useNavigate();
+  const [activeNav, setActiveNav] = useState('platform');
 
   return (
     <div className="bg-transparent min-h-screen flex flex-col font-sans text-on-surface">
@@ -13,9 +15,27 @@ export default function Landing() {
           <span className="text-xl font-bold text-primary dark:text-primary-fixed tracking-tight">IntentIQ</span>
         </div>
         <div className="hidden md:flex items-center justify-center gap-8 text-base font-medium flex-none">
-          <a className="text-accent dark:text-accent-fixed border-b-2 border-accent pb-1" href="#">Platform</a>
-          <a className="text-on-surface-variant dark:text-surface-dim hover:text-accent transition-colors pb-1" href="#solutions">Solutions</a>
-          <a className="text-on-surface-variant dark:text-surface-dim hover:text-accent transition-colors pb-1" href="#resources">Resources</a>
+          {[{ id: 'platform', label: 'Platform', href: '#' }, { id: 'solutions', label: 'Solutions', href: '#solutions' }, { id: 'resources', label: 'Resources', href: '#resources' }].map(({ id, label, href }) => (
+            <a
+              key={id}
+              href={href}
+              onClick={() => setActiveNav(id)}
+              className={`relative pb-1 transition-colors ${
+                activeNav === id
+                  ? 'text-accent'
+                  : 'text-on-surface-variant hover:text-accent'
+              }`}
+            >
+              {label}
+              {activeNav === id && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute left-0 -bottom-0.5 w-full h-0.5 bg-accent rounded-full"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
+            </a>
+          ))}
         </div>
         <div className="flex items-center gap-4 flex-1 justify-end">
           <button className="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">
