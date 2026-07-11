@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import { motion, type HTMLMotionProps } from "framer-motion"
+import { motion } from "framer-motion"
 import { cn } from "../../lib/utils"
 
 const buttonVariants = cva(
@@ -41,8 +41,6 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, loading, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    
     // We use framer-motion for micro-interactions if it's a standard button
     if (!asChild) {
       return (
@@ -51,7 +49,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref as any}
           disabled={loading || props.disabled}
-          {...(props as HTMLMotionProps<"button">)}
+          {...(props as any)}
         >
           {loading ? (
             <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -65,13 +63,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     return (
-      <Comp
+      <Slot
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       >
         {children}
-      </Comp>
+      </Slot>
     )
   }
 )
